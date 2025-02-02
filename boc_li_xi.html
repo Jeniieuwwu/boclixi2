@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bốc Lì Xì Online</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #ffebcd;
+            padding: 50px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 20px;
+            border: none;
+            background-color: #ff4500;
+            color: white;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        button:disabled {
+            background-color: gray;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #d2691e;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bốc Lì Xì Online</h1>
+    <button id="bocLiXiBtn">Bốc Lì Xì</button>
+    <p id="result"></p>
+
+    <script>
+        let rewards = ["Coming soon của chuỗi chương trình", "Lợi ích khi tham gia Workshop + IELTS", "Giới thiệu diễn giả", "form đăng ký tham gia Workshop", "Mini game", "Chính thức mở form đăng ký thi thử IELTS", "Trend xu hướng..", "Tsao cho thi giấy", "Giới thiệu MC", "Check Gmail", "Tips để thi IELTS đạt band cao"];
+        let usedRewards = JSON.parse(localStorage.getItem("usedRewards")) || [];
+        let userHasPicked = localStorage.getItem("userPicked");
+        
+        function bocLiXi() {
+            if (userHasPicked) return;
+            
+            let availableRewards = rewards.filter(r => !usedRewards.includes(r));
+            if (availableRewards.length === 0) {
+                document.getElementById("result").innerText = "Hết lì xì!";
+                return;
+            }
+            
+            let randomReward = availableRewards[Math.floor(Math.random() * availableRewards.length)];
+            usedRewards.push(randomReward);
+            localStorage.setItem("usedRewards", JSON.stringify(usedRewards));
+            localStorage.setItem("userPicked", "true");
+            document.getElementById("result").innerText = "Chúc mừng! Bạn nhận được: " + randomReward;
+            document.getElementById("bocLiXiBtn").disabled = true;
+        }
+        
+        document.getElementById("bocLiXiBtn").addEventListener("click", bocLiXi);
+        
+        if (userHasPicked) {
+            document.getElementById("bocLiXiBtn").disabled = true;
+            document.getElementById("result").innerText = "Bạn đã bốc lì xì rồi!";
+        }
+    </script>
+</body>
+</html>
